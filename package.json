@@ -1,0 +1,36 @@
+{
+  "name": "leni",
+  "version": "0.0.1",
+  "description": "Thin wrapper around kafka-node. Promise-based setup.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/.bin/mocha *.spec.js **/*.spec.js",
+    "tdd": "node_modules/.bin/mocha *.spec.js **/*.spec.js --watch --colors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Relink/leni.git"
+  },
+  "keywords": [
+    "kafka",
+    "node"
+  ],
+  "author": "relink",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Relink/leni/issues"
+  },
+  "homepage": "https://github.com/Relink/leni#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "proxyquire": "^1.7.4",
+    "sinon": "^1.17.3",
+    "sinon-chai": "^2.8.0"
+  },
+  "dependencies": {
+    "bluebird": "^3.3.1",
+    "kafka-node": "^0.3.2",
+    "lodash": "^4.5.0"
+  }
+}
