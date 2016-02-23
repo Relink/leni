@@ -1,5 +1,5 @@
 {
-  "name": "@relink/leni",
+  "name": "@relinklabs/leni",
   "version": "0.0.1",
   "description": "Thin wrapper around kafka-node. Promise-based setup.",
   "main": "index.js",
@@ -15,7 +15,7 @@
     "kafka",
     "node"
   ],
-  "author": "relink",
+  "author": "relinklabs",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Relink/leni/issues"
