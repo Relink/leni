@@ -5,5 +5,5 @@ module.exports = {
   Client: init.Client,
   Producer: init.Producer,
   createStream: init.createStream,
-  formatPayload: emitter.formatPayload
+  sendMessage: emitter.sendMessage
 };
