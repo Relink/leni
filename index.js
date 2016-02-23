@@ -1,7 +1,9 @@
 var init = require('./lib/init');
+var emitter = require('./lib/emitter');
 
 module.exports = {
   Client: init.Client,
   Producer: init.Producer,
-  createStream: init.createStream
+  createStream: init.createStream,
+  formatPayload: emitter.formatPayload
 };

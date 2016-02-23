@@ -1,11 +1,11 @@
 {
-  "name": "leni",
+  "name": "@relink/leni",
   "version": "0.0.1",
   "description": "Thin wrapper around kafka-node. Promise-based setup.",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha *.spec.js **/*.spec.js",
-    "tdd": "node_modules/.bin/mocha *.spec.js **/*.spec.js --watch --colors"
+    "test": "mocha *.spec.js **/*.spec.js",
+    "tdd": "mocha *.spec.js **/*.spec.js --watch --colors"
   },
   "repository": {
     "type": "git",
@@ -32,5 +32,8 @@
     "bluebird": "^3.3.1",
     "kafka-node": "^0.3.2",
     "lodash": "^4.5.0"
+  },
+  "directories": {
+    "test": "test"
   }
 }
