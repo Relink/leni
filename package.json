@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "bluebird": "^3.3.1",
-    "kafka-node": "^0.3.2",
+    "kafka-node": "git+https://github.com/SOHU-Co/kafka-node.git",
     "lodash": "^4.5.0"
   },
   "directories": {
