@@ -2,7 +2,7 @@ var chai = require('chai');
 chai.use(require('sinon-chai'));
 var expect = chai.expect;
 var sinon = require('sinon');
-var proxyquire = require('proxyquire');
+var proxyquire = require('proxyquire').noCallThru();
 var Promise = require('bluebird');
 var EventEmitter = require('events').EventEmitter;
 var stream = require('stream');
@@ -11,19 +11,12 @@ describe('ProducerStream', () => {
   var e1, e2;
 
   class MockProducer {};
-  var kafkaNodeMock = {
-    Producer: MockProducer,
-    HighLevelProducer: MockProducer,
-    Client: sinon.stub(),
-    Consumer: sinon.stub()
-  };
 
   var eddiesMock = {
     create: sinon.stub()
   }
 
   var ProducerStream = proxyquire('./ProducerStream', {
-    'kafka-node': kafkaNodeMock,
     '@relinklabs/eddies': eddiesMock
   });
 
@@ -39,7 +32,12 @@ describe('ProducerStream', () => {
 
     before(() => sinon.stub(ProducerStream, '_sendMessage', sendStub));
     beforeEach(() => {
-      eddy = new stream.Duplex({ read: () => null});
+      eddy = new stream.Duplex({
+        objectMode: true,
+        highWaterMark: 2,
+        read: () => null,
+        write: (d,e,c) => c()
+      });
       eddiesMock.create.returns(eddy);
       eddiesMock.create.reset();
       ProducerStream._sendMessage.reset();
@@ -54,7 +52,6 @@ describe('ProducerStream', () => {
 
     it('returns a freely writeable stream when duplex is false', () => {
       var p = new ProducerStream(producer, {duplex: false});
-      expect(p instanceof stream.Writable).to.be.true;
 
       // simulate a lot of write to show it never blocks up.
       var i = 200;
@@ -70,7 +67,7 @@ describe('ProducerStream', () => {
         expect(ProducerStream._sendMessage).to.have.been.calledWith('producer', 'foo')
         done();
       });
-    })
+    });
   });
 
   describe('sendMessage', () => {
@@ -83,8 +80,9 @@ describe('ProducerStream', () => {
     });
 
     it('sends a message out on a producer!', done => {
-      var producer = new MockProducer();
-      producer.sendAsync = sinon.stub().returns(Promise.resolve('foo'));
+      var producer = {
+        sendAsync: sinon.stub().returns(Promise.resolve('foo'))
+      };
       var message = { foo: 'bar' };
       ProducerStream._sendMessage(producer, message)
         .then( msg => {

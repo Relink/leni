@@ -10,6 +10,11 @@ class Leni {
     this.client = client;
     this.consumer = consumer;
     this.producer = producer;
+
+    // put this somewhere else?
+    process.on('SIGTERM', ()=> {
+      this.consumer.close(true, () => process.exit(0))
+    })
   };
 
   consumerStream(options) {

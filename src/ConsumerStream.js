@@ -36,11 +36,9 @@ class ConsumerStream extends Readable {
   }
 
   _read () {
-
-    // doesn't seem to cause any problems to call resume continually? But should
-    // maybe only be called if paused? We can assume MOST of the time, if the queue
-    // is reasonably full, we will be resuming/pausing between every read event?
-    this._consumer.resume();
+    if (this._consumer.paused) {
+      this._consumer.resume();
+    }
   }
 }
 

@@ -1,9 +1,7 @@
 var _ = require('lodash');
 var stream = require('stream');
-var kafka = require('kafka-node');
 var eddies = require('@relinklabs/eddies');
 var EventEmitter = require('events').EventEmitter;
-
 
 class ProducerStream {
 
@@ -43,8 +41,7 @@ class ProducerStream {
   static _sendMessage (producer, data) {
 
     // producer must be a instance of the node-kafka Producer! Otherwise, reject.
-    if (producer instanceof kafka.Producer == false &&
-        producer instanceof kafka.HighLevelProducer == false) {
+    if (typeof producer.sendAsync != 'function') {
       return Promise.reject(new TypeError('sendMessage requires a kafka producer, and the ' +
                                           'object you passed does not look look like one!'));
     }

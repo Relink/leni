@@ -64,10 +64,11 @@ describe('FormatStream', () => {
       foo: 'bar'
     };
 
-    it('makes messages into a string', () => {
+    it('makes messages into an Array', () => {
       var payload = FormatStream._formatPayload(data, 'baz');
       expect(payload).to.be.an('array')
-      expect(payload[0].messages).to.be.a('string')
+      expect(payload[0].messages).to.be.an('array')
+      // expect(payload[0].messages[0]).to.equal('foo')
     });
 
     it('makes the topic whatever the topic should be', () => {
@@ -82,7 +83,8 @@ describe('FormatStream', () => {
     it('works with arrays', () => {
       var arr = ['foo', 'bar']
       var payload = FormatStream._formatPayload(arr, 'baz');
-      expect(payload[0].messages).to.equal('foo');
+      expect(JSON.parse(payload[0].messages[0])).to.equal('foo');
+      expect(JSON.parse(payload[0].messages[1])).to.equal('bar');
     });
 
   });

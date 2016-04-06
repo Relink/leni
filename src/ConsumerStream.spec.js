@@ -5,6 +5,7 @@ var sinon = require('sinon');
 var kafka = require('kafka-node');
 var _ = require('lodash');
 var EventEmitter = require('events').EventEmitter;
+
 var ConsumerStream = require('./ConsumerStream');
 
 describe('ConsumerStream', () => {

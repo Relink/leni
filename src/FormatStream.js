@@ -52,21 +52,15 @@ class FormatStream extends stream.Transform {
 
     // coerce data into array if it isn't already
     var data = [].concat(data);
+    var messages = _.map(data, JSON.stringify);
 
-    // Format the data as we want it, according to node-kafka API
-    return _.map(data, function (item) {
-
-      // Coerce all our js object types into strings for serializing
-      if (item instanceof Object) {
-        item = JSON.stringify(item)
-      };
-
-      return {
-        topic: topic,
-        messages: item // is this the best way to communicate it?
-      };
-    });
+    // format for kafka-node
+    return [{
+      topic: topic,
+      messages: messages
+    }];
   };
+
 };
 
 module.exports = FormatStream

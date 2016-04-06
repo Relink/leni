@@ -3,7 +3,11 @@ chai.use(require('sinon-chai'));
 var expect = chai.expect;
 var sinon = require('sinon');
 var EventEmitter = require('events').EventEmitter;
-var init = require('./init');
+var proxyquire = require('proxyquire').noCallThru();
+
+var init = proxyquire('./init', {
+  'kafka-node': {}
+});
 
 describe('init', () => {
   var e1;
