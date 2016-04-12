@@ -20,14 +20,9 @@ class FormatStream extends stream.Transform {
     }
     super({
       objectMode: true,
-      transform: (d, r, cb) => {
+      transform: (data, enc, cb) => {
         try {
-          var t = typeof topic == 'function' ? topic(d) : topic;
-          if (typeof t != 'string') {
-            throw new TypeError('topic transformation function did not return' +
-                                'a string. It returned: ' + t);
-          }
-          cb(null, this.constructor._formatPayload(d, t));
+          cb(null, this.constructor._formatPayload(data, topic));
         }
         catch (e) { cb(e) };
       }
@@ -44,10 +39,11 @@ class FormatStream extends stream.Transform {
    * @throws {TypeError} if not given a string as a topic
    */
   static _formatPayload (data, topic) {
+    topic = typeof topic == 'function' ? topic(data) : topic;
 
-    // Topic is required and must be a string!
-    if (!topic || typeof topic != 'string') {
-      throw new TypeError('formatData requires a topic, none given!')
+    if (typeof topic != 'string') {
+      throw new TypeError('topic transformation function did not return' +
+                          'a string. It returned: ' + topic);
     }
 
     // coerce data into array if it isn't already
