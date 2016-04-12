@@ -29,7 +29,7 @@ class Leni {
     return new FormatStream(topic);
   };
 
-  formatMessge(msg, topic) {
+  formatMessage(msg, topic) {
     return FormatStream._formatPayload(msg, topic);
   }
 

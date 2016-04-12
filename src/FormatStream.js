@@ -41,7 +41,7 @@ class FormatStream extends stream.Transform {
   static _formatPayload (data, topic) {
     topic = typeof topic == 'function' ? topic(data) : topic;
 
-    if (typeof topic != 'string') {
+    if (typeof topic !== 'string') {
       throw new TypeError('topic transformation function did not return' +
                           'a string. It returned: ' + topic);
     }
