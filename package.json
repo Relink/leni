@@ -1,6 +1,6 @@
 {
   "name": "@relinklabs/leni",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Thin wrapper around kafka-node. Streams! Promise-based setup.",
   "main": "index.js",
   "scripts": {
