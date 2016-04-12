@@ -29,6 +29,10 @@ class Leni {
     return new FormatStream(topic);
   };
 
+  formatMessge(msg, topic) {
+    return FormatStream._formatPayload(msg, topic);
+  }
+
   sendMessage(msg) {
     return ProducerStream._sendMessage(this.producer, msg);
   };

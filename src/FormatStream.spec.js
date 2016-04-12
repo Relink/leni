@@ -23,29 +23,6 @@ describe('FormatStream', () => {
       formatStub.reset();
     })
     after(() => FormatStream._formatPayload.restore())
-    // note: these are actually functional tests and test formatPayload
-    // implicitely!! Should probably be changed.
-
-    it('takes a string as a topic', () => {
-      var format = new FormatStream('foo')
-      format.write(data);
-      expect(FormatStream._formatPayload).to.have.been.calledWith(data, 'foo')
-    });
-
-    it('takes a function as a topic transformer', () => {
-      var format = new FormatStream(msg => 'foo');
-      format.write(data);
-      expect(FormatStream._formatPayload).to.have.been.calledWith(data, 'foo')
-    });
-
-    it('throws when given a bunk function', done => {
-      var format = new FormatStream(msg => null);
-      format.on('error', err => {
-        expect(err).to.be.an.error;
-        done();
-      })
-      format.write(data);
-    });
 
     it('handles errors from formatPayload', done => {
       var format = new FormatStream(msg => 'foo');
@@ -64,11 +41,21 @@ describe('FormatStream', () => {
       foo: 'bar'
     };
 
+    it('takes a function as a topic transformer', () => {
+      var payload = FormatStream._formatPayload('foo', msg => 'bar');
+      expect(payload[0].topic).to.equal('bar');
+    });
+
+    it('throws when given a bunk function', () => {
+      var bunk = msg => null;
+      expect(FormatStream._formatPayload.bind('foo', bunk))
+        .to.throw(/topic transformation/);
+    });
+
     it('makes messages into an Array', () => {
       var payload = FormatStream._formatPayload(data, 'baz');
-      expect(payload).to.be.an('array')
-      expect(payload[0].messages).to.be.an('array')
-      // expect(payload[0].messages[0]).to.equal('foo')
+      expect(payload).to.be.an('array');
+      expect(payload[0].messages).to.be.an('array');
     });
 
     it('makes the topic whatever the topic should be', () => {
