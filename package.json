@@ -36,7 +36,8 @@
     "@relinklabs/eddies": "*",
     "bluebird": "^3.3.1",
     "kafka-node": "git+https://github.com/SOHU-Co/kafka-node.git",
-    "lodash": "^4.5.0"
+    "lodash": "^4.5.0",
+    "no-kafka": "^2.4.2"
   },
   "directories": {
     "test": "test"

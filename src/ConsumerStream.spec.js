@@ -8,7 +8,7 @@ var EventEmitter = require('events').EventEmitter;
 
 var ConsumerStream = require('./ConsumerStream');
 
-describe('ConsumerStream', () => {
+describe.only('ConsumerStream', () => {
   var client;
   var consumer;
   var consumerMock;
@@ -16,6 +16,8 @@ describe('ConsumerStream', () => {
   beforeEach(() => {
     client = new kafka.Client();
     consumer = new kafka.Consumer(client, [{ topic: 'foo' }]);
+    sinon.spy(consumer, 'pause');
+    sinon.spy(consumer, 'resume');
     consumerMock = _.merge(new EventEmitter, {
       pause: sinon.stub(),
       resume: sinon.stub(),
@@ -25,13 +27,12 @@ describe('ConsumerStream', () => {
 
   it('starts the consumer paused', () => {
     var stream = new ConsumerStream(consumer);
-    sinon.spy(consumer, 'pause');
     expect(consumer.paused).to.be.true;
   });
 
   it('starts the consumer when given a data listener', done => {
     var stream = new ConsumerStream(consumer);
-    stream.on('data', () => true);
+    stream.on('readable', () => true);
     process.nextTick(() => {
       expect(consumer.paused).to.be.false;
       done()
